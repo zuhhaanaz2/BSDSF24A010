@@ -30,14 +30,6 @@ Yes, running nm on client_static showed mystrlen defined (marked T) directly ins
 
 ## Feature 4: Creating and using Dynamic Library
 
-(To be completed after building Feature 4)
-
-## Feature 5: Creating and Accessing Man Pages
-
-(No report questions specified for this feature)
-
-## Feature 4: Creating and using Dynamic Library (Completed)
-
 **Q1: What is Position-Independent Code (-fPIC) and why is it a fundamental requirement for creating shared libraries?**
 
 Position-Independent Code is machine code generated so it can execute correctly regardless of the memory address at which it's loaded. This is essential for shared libraries because a .so file might be loaded at different memory addresses in different programs, or even multiple times at different addresses within the same program's address space. Without -fPIC, the code would contain hardcoded absolute memory addresses that would break if loaded anywhere other than one specific location.
@@ -49,3 +41,7 @@ In principle, a statically linked executable should be larger because it contain
 **Q3: What is the LD_LIBRARY_PATH environment variable? Why was it necessary to set it, and what does this tell you about the responsibilities of the OS's dynamic loader?**
 
 LD_LIBRARY_PATH is an environment variable that tells the operating system's dynamic loader additional directories to search when looking for shared libraries at runtime. It was necessary because libmyutils.so was located in a custom project folder (lib/), which isn't one of the loader's default system search paths. Running client_dynamic without it caused a "cannot open shared object file" error. This demonstrates that the dynamic loader's responsibility is to resolve and load all of a program's shared library dependencies at the moment the program starts, and it will refuse to run the program if any required library can't be located.
+
+## Feature 5: Creating and Accessing Man Pages
+
+(No report questions specified for this feature)
