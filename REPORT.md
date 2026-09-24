@@ -35,3 +35,17 @@ Yes, running nm on client_static showed mystrlen defined (marked T) directly ins
 ## Feature 5: Creating and Accessing Man Pages
 
 (No report questions specified for this feature)
+
+## Feature 4: Creating and using Dynamic Library (Completed)
+
+**Q1: What is Position-Independent Code (-fPIC) and why is it a fundamental requirement for creating shared libraries?**
+
+Position-Independent Code is machine code generated so it can execute correctly regardless of the memory address at which it's loaded. This is essential for shared libraries because a .so file might be loaded at different memory addresses in different programs, or even multiple times at different addresses within the same program's address space. Without -fPIC, the code would contain hardcoded absolute memory addresses that would break if loaded anywhere other than one specific location.
+
+**Q2: Explain the difference in file size between your static and dynamic clients. Why does this difference exist?**
+
+In principle, a statically linked executable should be larger because it contains a full copy of every library function it uses, embedded directly into the binary. A dynamically linked executable should be smaller because it only stores a reference to the shared library, with the actual function code loaded separately at runtime. In this project, client_static and client_dynamic were nearly identical in size (both around 17K) because the custom library itself is very small, so the size difference only becomes significant with larger libraries.
+
+**Q3: What is the LD_LIBRARY_PATH environment variable? Why was it necessary to set it, and what does this tell you about the responsibilities of the OS's dynamic loader?**
+
+LD_LIBRARY_PATH is an environment variable that tells the operating system's dynamic loader additional directories to search when looking for shared libraries at runtime. It was necessary because libmyutils.so was located in a custom project folder (lib/), which isn't one of the loader's default system search paths. Running client_dynamic without it caused a "cannot open shared object file" error. This demonstrates that the dynamic loader's responsibility is to resolve and load all of a program's shared library dependencies at the moment the program starts, and it will refuse to run the program if any required library can't be located.
