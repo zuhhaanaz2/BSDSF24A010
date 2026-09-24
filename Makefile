@@ -38,5 +38,14 @@ obj/mystrfunctions_pic.o: src/mystrfunctions.c
 obj/myfilefunctions_pic.o: src/myfilefunctions.c
 	$(CC) $(PICFLAGS) -c src/myfilefunctions.c -o obj/myfilefunctions_pic.o
 
+install: $(STATIC_TARGET)
+	install -m 755 $(STATIC_TARGET) /usr/local/bin/client
+	install -m 644 man/man3/client.1 /usr/local/share/man/man1/client.1
+	mandb > /dev/null 2>&1
+
+uninstall:
+	rm -f /usr/local/bin/client
+	rm -f /usr/local/share/man/man1/client.1
+
 clean:
 	rm -f obj/*.o bin/client_static bin/client_dynamic lib/*.a lib/*.so
